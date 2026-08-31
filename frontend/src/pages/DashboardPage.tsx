@@ -125,7 +125,7 @@ export const DashboardPage: React.FC = () => {
                   NEXT BEST ACTION
                 </Badge>
                 <span className="text-xs text-slate-400 uppercase tracking-wider font-semibold font-mono">
-                  {nextAction.action_type.replace('_', ' ')}
+                  {(nextAction.action_type || 'Action').replace('_', ' ')}
                 </span>
               </div>
               <h3 className="text-lg sm:text-xl font-bold text-white">{nextAction.title}</h3>
@@ -248,24 +248,41 @@ export const DashboardPage: React.FC = () => {
                   </div>
                   <h4 className="text-base font-bold text-white">{progress.current_milestone.title}</h4>
                   <p className="text-xs text-slate-400">
-                    Skill: <strong className="text-slate-200">{progress.current_milestone.skill_name}</strong> • Est: {progress.current_milestone.estimated_minutes} mins
+                    Estimated Time: {progress.current_milestone.estimated_hours} hours | Type:{' '}
+                    <span className="capitalize">{progress.current_milestone.type}</span>
                   </p>
                 </div>
 
-                <Button onClick={() => navigate('/roadmap')} size="sm">
-                  Continue Milestone
-                </Button>
+                <div className="flex items-center gap-3 w-full sm:w-auto">
+                  {progress.current_milestone.resource_url && (
+                    <a
+                      href={progress.current_milestone.resource_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 sm:flex-none text-center px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold border border-slate-700 transition"
+                    >
+                      Open Resource
+                    </a>
+                  )}
+                  <Button
+                    size="sm"
+                    className="flex-1 sm:flex-none"
+                    onClick={() => navigate('/roadmap')}
+                  >
+                    View in Roadmap
+                  </Button>
+                </div>
               </div>
             ) : (
-              <p className="text-xs text-slate-400">All milestones in the active roadmap are completed!</p>
+              <p className="text-xs text-slate-400">No active milestone in progress. Open your roadmap to start next step.</p>
             )}
           </Card>
 
-          {/* Personalized Recommendations */}
-          <Card className="p-6">
-            <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-800">
+          {/* Explainable Recommendations Feed */}
+          <Card className="p-6 space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
               <div className="flex items-center gap-2">
-                <Zap className="w-5 h-5 text-amber-400" />
+                <BookOpen className="w-5 h-5 text-teal-400" />
                 <h3 className="text-base font-bold text-white">Recommended For You</h3>
               </div>
               <Link to="/resources" className="text-xs text-slate-400 hover:text-slate-200">
@@ -283,7 +300,7 @@ export const DashboardPage: React.FC = () => {
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
                         <Badge variant="default" size="sm">
-                          {rec.resource_type.toUpperCase()}
+                          {(rec.resource_type || 'Resource').toUpperCase()}
                         </Badge>
                         <span className="text-xs text-slate-400 font-medium">{rec.difficulty}</span>
                       </div>
@@ -295,7 +312,7 @@ export const DashboardPage: React.FC = () => {
                       >
                         {rec.title}
                       </a>
-                      <p className="text-xs text-slate-400">{rec.reason.primary_reason}</p>
+                      <p className="text-xs text-slate-400">{rec.reason?.primary_reason || ''}</p>
                     </div>
 
                     <a
@@ -326,7 +343,7 @@ export const DashboardPage: React.FC = () => {
             </div>
 
             <p className="text-xs text-slate-400">
-              Skills with largest delta against requirements for {profile.target_role.name}:
+              Skills with largest delta against requirements for {profile.target_role?.name || 'Target Role'}:
             </p>
 
             <div className="space-y-3">

@@ -188,7 +188,7 @@ export const ResourcesPage: React.FC = () => {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <Badge variant="default" size="sm">
-                      {res.resource_type.toUpperCase()}
+                      {(res.resource_type || 'Resource').toUpperCase()}
                     </Badge>
                     <span className="text-xs font-semibold text-slate-400 capitalize">{res.difficulty || 'All Levels'}</span>
                   </div>
