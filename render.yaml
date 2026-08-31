@@ -38,5 +38,5 @@ services:
 databases:
   - name: pathfinder-db
     databaseName: pathfinder
-    user: postgres
+    user: pathfinder_user
     plan: free
