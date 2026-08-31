@@ -73,7 +73,7 @@ export const AdaptivePage: React.FC = () => {
       </div>
 
       {/* Next Best Action Card */}
-      {data.next_best_action && (
+      {data?.next_best_action && (
         <Card className="p-6 border-emerald-500/40 bg-gradient-to-r from-emerald-950/40 via-slate-900/80 to-slate-900/80 glow-brand">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="space-y-1">
@@ -82,7 +82,7 @@ export const AdaptivePage: React.FC = () => {
                   ADAPTED NEXT ACTION
                 </Badge>
                 <span className="text-xs text-slate-400 font-mono capitalize">
-                  {data.next_best_action.action_type.replace('_', ' ')}
+                  {data.next_best_action.action_type ? data.next_best_action.action_type.replace('_', ' ') : 'Action'}
                 </span>
               </div>
               <h3 className="text-lg font-bold text-white">{data.next_best_action.title}</h3>
@@ -103,13 +103,13 @@ export const AdaptivePage: React.FC = () => {
           Active Interventions & Adjustments
         </h3>
 
-        {data.interventions_selected.length > 0 ? (
+        {(data?.interventions_selected || []).length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {data.interventions_selected.map((inv) => (
+            {(data.interventions_selected || []).map((inv) => (
               <Card key={inv.skill_id} className="p-5 space-y-3 border-amber-800/40 bg-slate-900/60">
                 <div className="flex items-center justify-between">
                   <Badge variant="warning" size="sm">
-                    {inv.intervention_type.replace('_', ' ')}
+                    {inv.intervention_type ? inv.intervention_type.replace('_', ' ') : 'Intervention'}
                   </Badge>
                   <span className="text-xs text-slate-400 font-mono">Priority #{inv.priority}</span>
                 </div>
@@ -133,24 +133,28 @@ export const AdaptivePage: React.FC = () => {
       <Card className="p-6 space-y-4">
         <h3 className="text-lg font-bold text-white flex items-center gap-2">
           <TrendingDown className="w-5 h-5 text-rose-400" />
-          Detected Weak Areas ({data.weak_skills_detected.length})
+          Detected Weak Areas ({(data?.weak_skills_detected || []).length})
         </h3>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {data.weak_skills_detected.map((w) => (
-            <div key={w.skill_id} className="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
-              <div className="flex items-center justify-between">
-                <h5 className="font-semibold text-sm text-white">{w.skill_name}</h5>
-                <span className="text-xs text-rose-400 font-mono font-bold">Gap: {w.gap}%</span>
+        {(data?.weak_skills_detected || []).length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {(data.weak_skills_detected || []).map((w) => (
+              <div key={w.skill_id} className="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
+                <div className="flex items-center justify-between">
+                  <h5 className="font-semibold text-sm text-white">{w.skill_name}</h5>
+                  <span className="text-xs text-rose-400 font-mono font-bold">Gap: {w.gap}%</span>
+                </div>
+                <p className="text-xs text-slate-400 leading-relaxed">{w.reason}</p>
+                <div className="flex justify-between text-[10px] text-slate-500 pt-1 border-t border-slate-800">
+                  <span>Current: {w.current_proficiency}%</span>
+                  <span>Target: {w.required_proficiency}%</span>
+                </div>
               </div>
-              <p className="text-xs text-slate-400 leading-relaxed">{w.reason}</p>
-              <div className="flex justify-between text-[10px] text-slate-500 pt-1 border-t border-slate-800">
-                <span>Current: {w.current_proficiency}%</span>
-                <span>Target: {w.required_proficiency}%</span>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-xs text-slate-400">No weak skill gaps detected below critical threshold.</p>
+        )}
       </Card>
     </div>
   );
