@@ -1,8 +1,7 @@
 from typing import Optional, List, TYPE_CHECKING
 from sqlalchemy import String, Text, Integer, Numeric, Boolean, Index, CheckConstraint
-from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from backend.app.db.base import Base, UUIDPrimaryKeyMixin, TimestampMixin, Vector
+from backend.app.db.base import Base, UUIDPrimaryKeyMixin, TimestampMixin, Vector, JSONB
 from backend.app.core.config import settings
 
 if TYPE_CHECKING:

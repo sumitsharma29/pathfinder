@@ -1,0 +1,11 @@
+"""WSGI / ASGI entry point for production servers (Render / Gunicorn / Uvicorn)."""
+from backend.app.main import app
+
+# Expose app as application for standard WSGI/ASGI runners
+application = app
+
+if __name__ == "__main__":
+    import uvicorn
+    import os
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("backend.app.main:app", host="0.0.0.0", port=port)

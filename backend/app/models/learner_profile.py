@@ -1,9 +1,9 @@
 import uuid
 from typing import Optional, List, TYPE_CHECKING
 from sqlalchemy import String, Numeric, Integer, ForeignKey, Index, CheckConstraint
-from sqlalchemy.dialects.postgresql import UUID, JSONB
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from backend.app.db.base import Base, UUIDPrimaryKeyMixin, TimestampMixin
+from backend.app.db.base import Base, UUIDPrimaryKeyMixin, TimestampMixin, JSONB
 
 if TYPE_CHECKING:
     from backend.app.models.user import User

@@ -1,10 +1,13 @@
 from datetime import datetime, timezone
 import uuid
 from typing import Optional, List, Union
-from sqlalchemy import DateTime, text
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import DateTime, text, JSON
+from sqlalchemy.dialects.postgresql import UUID, JSONB as PG_JSONB
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy.types import UserDefinedType
+
+# Universal JSON type that automatically uses JSONB on PostgreSQL and JSON on SQLite
+JSONB = PG_JSONB().with_variant(JSON(), "sqlite")
 
 
 from sqlalchemy.types import UserDefinedType, TypeEngine, Float

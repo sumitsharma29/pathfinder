@@ -2,9 +2,9 @@ import uuid
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING
 from sqlalchemy import String, Text, DateTime, ForeignKey, Index, CheckConstraint, text
-from sqlalchemy.dialects.postgresql import UUID, JSONB
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from backend.app.db.base import Base, UUIDPrimaryKeyMixin
+from backend.app.db.base import Base, UUIDPrimaryKeyMixin, JSONB
 
 if TYPE_CHECKING:
     from backend.app.models.conversation import Conversation
