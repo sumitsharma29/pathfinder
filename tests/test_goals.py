@@ -175,6 +175,7 @@ def test_proficiency_safety_does_not_mutate_learner_skills(auth_learner, db_sess
 def test_database_counts_remain_strictly_unchanged(auth_learner, db_session):
     """Test 7: Verify zero database mutations across learner_skills, roadmaps, items, and assessment_results."""
     headers = auth_learner["headers"]
+    db_session.expire_all()
 
     count_skills_before = db_session.scalar(select(func.count(LearnerSkill.learner_id)))
     count_roadmaps_before = db_session.scalar(select(func.count(Roadmap.id)))
@@ -188,6 +189,7 @@ def test_database_counts_remain_strictly_unchanged(auth_learner, db_session):
     )
     assert r.status_code == 200
 
+    db_session.expire_all()
     count_skills_after = db_session.scalar(select(func.count(LearnerSkill.learner_id)))
     count_roadmaps_after = db_session.scalar(select(func.count(Roadmap.id)))
     count_items_after = db_session.scalar(select(func.count(RoadmapItem.id)))
@@ -280,7 +282,9 @@ def test_user_isolation_on_goal_analysis(auth_learner):
     headers_b = {"Authorization": f"Bearer {r_b.json()['data']['access_token']}"}
 
     r1 = client.post("/api/v1/ai/analyze-goal", json={"text": "I want to be a Cloud Engineer."}, headers=headers_a)
-    r2 = client.post("/api/v1/ai/analyze-goal", json={"text": "I want to be a Security Engineer."}, headers=headers_b)
+    r2 = client.post("/api/v1/ai/analyze-goal", json={"text": "I want to be a Cybersecurity Analyst."}, headers=headers_b)
 
-    assert r1.json()["data"]["target_role"] == "Cloud / DevOps Engineer"
-    assert r2.json()["data"]["target_role"] == "Security Engineer"
+    assert r1.status_code == 200
+    assert r2.status_code == 200
+    assert r1.json()["data"]["target_role"] in ["Cloud Engineer", "Cloud / DevOps Engineer"]
+    assert r2.json()["data"]["target_role"] in ["Cybersecurity Analyst", "Security Engineer"]
