@@ -2,6 +2,7 @@ from typing import Generator
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 from backend.app.core.config import settings
+from backend.app.db.base import Base
 
 # Engine configuration with connection pooling
 engine = create_engine(

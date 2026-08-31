@@ -14,29 +14,29 @@ from scripts.seed import seed_database
 
 
 def run_deployment_init():
-    print(f"🚀 Starting PathFinder Nexus Deployment Initializer...")
-    print(f"📦 Environment: {settings.APP_ENV} | App: {settings.APP_NAME} v{settings.APP_VERSION}")
+    print("[INIT] Starting PathFinder Nexus Deployment Initializer...")
+    print(f"[INFO] Environment: {settings.APP_ENV} | App: {settings.APP_NAME} v{settings.APP_VERSION}")
     
     try:
-        print("🔍 Testing Database Connection...")
+        print("[INFO] Testing Database Connection...")
         with engine.connect() as conn:
             conn.execute(text("SELECT 1"))
-        print("✅ Database connection established.")
+        print("[SUCCESS] Database connection established.")
 
-        print("🏗️ Creating database schema tables...")
+        print("[INFO] Creating database schema tables...")
         # Import all models to ensure metadata is populated
         import backend.app.models
         Base.metadata.create_all(bind=engine)
-        print("✅ Database schema synchronized.")
+        print("[SUCCESS] Database schema synchronized.")
 
-        print("🌱 Seeding canonical catalog data...")
+        print("[INFO] Seeding canonical catalog data...")
         seed_database()
-        print("✅ Seed verification complete.")
-        print("🎉 Deployment Initialization Succeeded!")
+        print("[SUCCESS] Seed verification complete.")
+        print("[SUCCESS] Deployment Initialization Succeeded!")
         return 0
     except Exception as e:
-        print(f"⚠️ Deployment init encountered a database warning/error: {e}")
-        print("ℹ️ If database is not configured yet or cloud DB is starting, application will start in fallback mode.")
+        print(f"[WARN] Deployment init encountered a database warning/error: {e}")
+        print("[INFO] If database is not configured yet or cloud DB is starting, application will start in fallback mode.")
         return 0
 
 
