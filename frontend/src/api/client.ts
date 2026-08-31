@@ -71,11 +71,19 @@ class APIClient {
       }
     }
 
-    if (response.status === 204) {
-      return null as unknown as T;
+    let json: any;
+    const rawText = await response.text();
+    try {
+      json = rawText ? JSON.parse(rawText) : {};
+    } catch {
+      if (!response.ok) {
+        const err = new Error(`Server error (${response.status}): ${response.statusText || 'Unable to connect to backend'}`) as any;
+        err.status = response.status;
+        throw err;
+      }
+      json = {};
     }
 
-    const json = await response.json();
     if (!response.ok || (json.success !== undefined && !json.success)) {
       const errorMessage = json?.error?.message || json?.message || `Request failed with status ${response.status}`;
       const err = new Error(errorMessage) as any;
