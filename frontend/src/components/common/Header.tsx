@@ -48,11 +48,11 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
           <div className="flex items-center gap-3 pl-2 border-l border-slate-800">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 font-semibold text-xs">
-                {user.name.charAt(0).toUpperCase()}
+                {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
               </div>
               <div className="hidden sm:block text-left">
-                <p className="text-xs font-medium text-white leading-tight">{user.name}</p>
-                <p className="text-[10px] text-slate-400 truncate max-w-[140px]">{user.email}</p>
+                <p className="text-xs font-medium text-white leading-tight">{user.name || 'Learner'}</p>
+                <p className="text-[10px] text-slate-400 truncate max-w-[140px]">{user.email || ''}</p>
               </div>
             </div>
 

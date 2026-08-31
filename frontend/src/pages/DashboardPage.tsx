@@ -44,8 +44,8 @@ export const DashboardPage: React.FC = () => {
     setError(null);
     try {
       const [profData, progData, gapData, nbaData, recData] = await Promise.all([
-        api.getProfile(),
-        api.getOverallProgress(),
+        api.getProfile().catch(() => null),
+        api.getOverallProgress().catch(() => null),
         api.getSkillGaps().catch(() => null),
         api.getNextBestAction().catch(() => null),
         api.getRecommendations({ page_size: 3 }).catch(() => []),
@@ -100,7 +100,7 @@ export const DashboardPage: React.FC = () => {
             Learner Command Center
           </h1>
           <p className="text-sm text-slate-400 mt-1">
-            Targeting <span className="text-emerald-400 font-semibold">{profile.target_role.name}</span>
+            Targeting <span className="text-emerald-400 font-semibold">{profile.target_role?.name || 'Selected Career Track'}</span>
           </p>
         </div>
 
