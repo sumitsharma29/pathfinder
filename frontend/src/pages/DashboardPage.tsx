@@ -248,8 +248,8 @@ export const DashboardPage: React.FC = () => {
                   </div>
                   <h4 className="text-base font-bold text-white">{progress.current_milestone.title}</h4>
                   <p className="text-xs text-slate-400">
-                    Estimated Time: {progress.current_milestone.estimated_hours} hours | Type:{' '}
-                    <span className="capitalize">{progress.current_milestone.type}</span>
+                    Estimated Time: {progress.current_milestone.estimated_hours ?? Math.round(((progress.current_milestone.estimated_minutes || 60) / 60) * 10) / 10} hrs | Focus Skill:{' '}
+                    <span className="text-slate-300 font-medium">{progress.current_milestone.skill_name || 'Foundational'}</span>
                   </p>
                 </div>
 

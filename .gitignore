@@ -1,9 +1,15 @@
 # Environment & Secrets
 .env
+.env.*
+*.env
 .env.local
 .env.*.local
 *.pem
 *.key
+
+# Archives
+*.zip
+*.tar.gz
 
 # Python
 __pycache__/

@@ -1,33 +1,26 @@
 import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
-import { Compass, ArrowRight } from 'lucide-react';
+import { ArrowRight, Presentation } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { Logo } from '../components/common/Logo';
 
 export const PublicLayout: React.FC = () => {
   const { isAuthenticated } = useAuth();
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-emerald-500 selection:text-slate-950">
-      {/* Public Navigation */}
-      <header className="h-20 border-b border-slate-800/80 bg-slate-950/70 backdrop-blur-md sticky top-0 z-50">
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-cyan-500 selection:text-slate-950">
+      {/* Unified Public Navigation Header */}
+      <header className="h-16 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-slate-950 font-bold shadow-lg shadow-emerald-500/20">
-              <Compass className="w-6 h-6 text-slate-950" />
-            </div>
-            <div>
-              <span className="font-bold text-lg tracking-tight text-white flex items-center gap-1.5">
-                PathFinder <span className="text-emerald-400 text-xs px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-800/60 font-mono">AI</span>
-              </span>
-              <p className="text-xs text-slate-400">Autonomous Adaptive Learning</p>
-            </div>
+          <Link to="/" className="hover:opacity-95 transition">
+            <Logo size="md" showText={true} />
           </Link>
 
-          <div className="flex items-center gap-3 sm:gap-4">
+          <div className="flex items-center gap-2.5 sm:gap-3.5">
             {isAuthenticated ? (
               <Link
                 to="/dashboard"
-                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition shadow-lg shadow-emerald-500/20"
+                className="inline-flex items-center gap-2 px-4 py-1.5 text-xs sm:text-sm font-semibold rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-slate-950 transition shadow-lg shadow-cyan-500/20"
               >
                 Go to Dashboard
                 <ArrowRight className="w-4 h-4" />
@@ -36,16 +29,16 @@ export const PublicLayout: React.FC = () => {
               <>
                 <Link
                   to="/login"
-                  className="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition"
+                  className="px-3 py-1.5 text-xs sm:text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900/60 rounded-xl transition"
                 >
                   Sign In
                 </Link>
                 <Link
                   to="/register"
-                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition shadow-lg shadow-emerald-500/20"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs sm:text-sm font-semibold rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-slate-950 transition shadow-lg shadow-cyan-500/20 font-bold"
                 >
                   Get Started
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </>
             )}
@@ -58,10 +51,16 @@ export const PublicLayout: React.FC = () => {
         <Outlet />
       </main>
 
-      {/* Footer */}
+      {/* Unified Public Footer */}
       <footer className="border-t border-slate-800/80 bg-slate-950 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500">
-          <p>© {new Date().getFullYear()} PathFinder AI. Deterministic Career Navigation & Adaptive Learning Engine.</p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+          <div className="flex items-center gap-2">
+            <Logo size="sm" showText={false} />
+            <span>PathFinder Nexus • Autonomous Career Navigation Platform</span>
+          </div>
+          <div className="flex items-center gap-2 text-[11px] font-mono text-slate-500">
+            <span>FastAPI + PostgreSQL + React 18</span>
+          </div>
         </div>
       </footer>
     </div>

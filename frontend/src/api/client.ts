@@ -28,7 +28,8 @@ import {
   ResourceCatalogItem,
 } from '../types/api';
 
-const API_BASE = '/api/v1';
+const envApiUrl = (import.meta.env.VITE_API_URL as string | undefined) || '';
+const API_BASE = envApiUrl ? `${envApiUrl.replace(/\/$/, '')}/api/v1` : '/api/v1';
 
 class APIClient {
   private getToken(): string | null {

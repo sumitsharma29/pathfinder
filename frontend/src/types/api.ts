@@ -223,6 +223,9 @@ export interface MilestoneSummary {
   estimated_minutes: number;
   skill_id: string;
   skill_name: string;
+  estimated_hours?: number;
+  type?: string;
+  resource_url?: string | null;
 }
 
 export interface OverallProgressResponse {
