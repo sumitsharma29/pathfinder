@@ -291,6 +291,32 @@ class RAGService:
                 status="INSUFFICIENT_CONTEXT"
             )
 
+        # Handle casual greetings and introductory inquiries gracefully
+        GREETINGS = {
+            "hi", "hii", "hiii", "hello", "hey", "heyy", "greetings",
+            "good morning", "good afternoon", "good evening",
+            "who are you", "what can you do", "help", "howdy", "what is pathfinder"
+        }
+        normalized_q = "".join(c for c in clean_q.lower() if c.isalnum() or c.isspace()).strip()
+        if normalized_q in GREETINGS or normalized_q.startswith(("hi ", "hello ", "hey ")):
+            target_role = learner_context.get("target_role") if learner_context else None
+            role_hint = f" targeting **{target_role}**" if target_role else ""
+            greeting_msg = (
+                f"Hello! 👋 I'm your **PathFinder AI Learning Assistant**.\n\n"
+                f"I'm here to guide your personalized learning journey{role_hint}. You can ask me:\n\n"
+                f"• **Technical Concepts**: *\"Explain gradient descent with an example\"* or *\"What is overfitting vs underfitting?\"*\n"
+                f"• **Roadmap & Strategy**: *\"What skills do I need to become an AI/ML Engineer?\"*\n"
+                f"• **Resource Recommendations**: *\"Recommend the best Python or SQL courses for beginners.\"*\n"
+                f"• **Assessment Prep**: *\"How should I prepare for the Machine Learning quiz?\"*\n\n"
+                f"How can I assist you with your learning goals today?"
+            )
+            return RAGAnswerResponse(
+                query=clean_q,
+                answer=greeting_msg,
+                sources=[],
+                status="GROUNDED_ANSWER"
+            )
+
         # 1. Retrieve relevant catalog resources
         sources = cls.retrieve_relevant_resources(
             db=db,
